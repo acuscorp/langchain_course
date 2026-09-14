@@ -1,0 +1,52 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Credenciales OAuth de Google (Tema 3)
+**/credentials.json
+**/token.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Bases de datos vectoriales generadas (Chroma, FAISS, etc.)
+chroma_db/
+*.sqlite3
+
+# Artefactos de Windows/WSL
+*.lnk
+*:Zone.Identifier
+*:sec.endpointdlp
+*:*
+
+# IDEs
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs y temporales
+*.log
+*.tmp
+
+# Material pesado de cursos (no subir)
+*.mp4
+*.mkv
+*.zip
