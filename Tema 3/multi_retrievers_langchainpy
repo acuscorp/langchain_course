@@ -21,7 +21,7 @@ llm = ChatOllama(
 vector_store = Chroma(embedding_function=embeddings, persist_directory="/home/noe/curso_langchain/Tema 3/chroma_db")
 
 base_retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 2})
-retriever = MultiQueryRetriever.from_llm(retriever=base_retriever,llm=llm)
+retriever = MultiQueryRetriever.from_llm(retriever=vector_store,llm=llm)
 
 
 # requestor query example
