@@ -7,7 +7,7 @@ from config import *
 from prompts import *
 import streamlit as st
 
-
+@st.cache_resource
 def initialize_rag_system():
     # Initialize the RAG system components: embeddings, LLM, vector store, and retriever
     # Vector store
@@ -62,3 +62,39 @@ def initialize_rag_system():
     )
 
     return rag_chain, mmr_multiquery_retriever
+
+
+def query_rag(question):
+    try:
+        rag_chain, retriever = initialize_rag_system()
+
+        response = rag_chain.invoke(question)
+
+        docs = retriever.get_relevant_documents(question)
+
+
+        docs_info = []
+
+        for i, doc in enumerate(docs, 1):
+            doc_info = {
+                "fragment": i,
+                "content": doc.page_content[:1000] + "..." if len(doc.page_content) > 1000 else doc.page_content,
+                "source": doc.metadata.get('source','No source').split("/")[-1],
+                "page": doc.metadata.get('page','No page'),
+            }
+            docs_info.append(doc_info)
+
+        return response, docs_info
+    except Exception as e:
+        st.error(f"Error querying RAG system: {e}")
+        return None, []
+
+def get_retriever_info():
+
+    return {
+        "tipo": f"{RETRIEVER_SEARCH_TYPE.upper()}",
+        "documentos": MMR_SEARCH_K,
+        "diversidad": MMR_DIVERSITY_LAMDA,
+        "candidatos": MMR_FETCH_K,
+        "umbral":None
+    }
