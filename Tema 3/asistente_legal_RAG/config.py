@@ -25,12 +25,14 @@ TEMPERATURE=0.2
 
 llm_query = ChatOllama(
     model=QUERY_LLM_MODEL,
-    temperature=TEMPERATURE
+    temperature=TEMPERATURE,
+    base_url=BASE_URL,
 )
 
 llm_generation = ChatOllama(
     model=GENERATION_LLM_MODEL,
-    temperature=TEMPERATURE
+    temperature=TEMPERATURE,
+    base_url=BASE_URL,
 )
 
 
