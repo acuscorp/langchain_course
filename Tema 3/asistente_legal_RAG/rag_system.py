@@ -87,6 +87,7 @@ def query_rag(question):
         return response, docs_info
     except Exception as e:
         st.error(f"Error querying RAG system: {e}")
+        print(f"Error querying RAG system: {e}")
         return None, []
 
 def get_retriever_info():

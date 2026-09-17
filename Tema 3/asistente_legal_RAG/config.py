@@ -1,5 +1,13 @@
 from langchain_ollama import OllamaEmbeddings
 from langchain_ollama import ChatOllama
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+CHROMA_DB_PATH = BASE_DIR.parent  / "chroma_db"
+
+print("Chroma path:", CHROMA_DB_PATH)
+
 
 #  instanciate the embeddings model
 EMBEDDING_MODEL = "bge-m3"
@@ -12,7 +20,7 @@ embeddings = OllamaEmbeddings(
 
 #  instanciate the LLM model
 QUERY_LLM_MODEL = "llama3.2"
-GENERATION_LLM_MODEL="qwen2.5"
+GENERATION_LLM_MODEL="qwen2.5:7b"
 TEMPERATURE=0.2
 
 llm_query = ChatOllama(
@@ -25,7 +33,6 @@ llm_generation = ChatOllama(
     temperature=TEMPERATURE
 )
 
-CHROMA_DB_PATH="/home/noe/curso_langchain/Tema 3/chroma_db"
 
 # Retriever configuration
 RETRIEVER_SEARCH_TYPE = "mmr"
@@ -34,5 +41,3 @@ RETRIEVER_SEARCH_TYPE = "mmr"
 MMR_DIVERSITY_LAMDA = 0.7
 MMR_FETCH_K = 20
 MMR_SEARCH_K = 2
-
-

@@ -1,14 +1,22 @@
 
+from pathlib import Path
+
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.document_loaders import PyPDFDirectoryLoader
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+BASE_DIR = Path(__file__).resolve().parent
+
+CHROMA_DB_PATH = BASE_DIR  / "chroma_db"
+CONTRATOS_DIR = BASE_DIR / "contratos"
+
 
 import os
 
 # instanciate the pdf dir loader
 
-pdf_loader = PyPDFDirectoryLoader("/home/noe/curso_langchain/Tema 3/contratos")
+pdf_loader = PyPDFDirectoryLoader(CONTRATOS_DIR.as_posix())
 documents = pdf_loader.load()
 
 # instanciate the text splitter
@@ -25,9 +33,10 @@ embeddings = OllamaEmbeddings(
     base_url="http://localhost:11434",
 )
 
+print("Chroma path:", CHROMA_DB_PATH)
 
 # create database
-vector_store = Chroma.from_documents(split_documents, embeddings,persist_directory="/home/noe/curso_langchain/Tema 3/chroma_db")
+vector_store = Chroma.from_documents(split_documents, embeddings,persist_directory=CHROMA_DB_PATH.as_posix())
 
 print("Vector store has been created successfully.")
 
