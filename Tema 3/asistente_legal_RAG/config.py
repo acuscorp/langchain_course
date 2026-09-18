@@ -1,3 +1,4 @@
+import os
 from langchain_ollama import OllamaEmbeddings
 from langchain_ollama import ChatOllama
 from pathlib import Path
@@ -19,19 +20,26 @@ embeddings = OllamaEmbeddings(
 
 
 #  instanciate the LLM model
-QUERY_LLM_MODEL = "llama3.2"
-GENERATION_LLM_MODEL="qwen2.5:7b"
+QUERY_LLM_MODEL = os.getenv("QUERY_LLM_MODEL", "llama3.2")
+GENERATION_LLM_MODEL = os.getenv("GENERATION_LLM_MODEL", "llama3.2")
+QUERY_MAX_TOKENS = int(os.getenv("QUERY_MAX_TOKENS", "128"))
+GENERATION_MAX_TOKENS = int(os.getenv("GENERATION_MAX_TOKENS", "512"))
+OLLAMA_KEEP_ALIVE = os.getenv("OLLAMA_KEEP_ALIVE", "10m")
 TEMPERATURE=0.2
 
 llm_query = ChatOllama(
     model=QUERY_LLM_MODEL,
     temperature=TEMPERATURE,
+    num_predict=QUERY_MAX_TOKENS,
+    keep_alive=OLLAMA_KEEP_ALIVE,
     base_url=BASE_URL,
 )
 
 llm_generation = ChatOllama(
     model=GENERATION_LLM_MODEL,
     temperature=TEMPERATURE,
+    num_predict=GENERATION_MAX_TOKENS,
+    keep_alive=OLLAMA_KEEP_ALIVE,
     base_url=BASE_URL,
 )
 
